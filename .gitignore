@@ -1,3 +1,9 @@
-neel/dataframes
+neel/.vscode
+neel/data
+neel/scripts/__pycache__
+neel/scripts/functions/__pycache__
+neel/notebooks/.ipynb_checkpoints
+neel/venv
+notebooks/.ipynb_checkpoints
 venv
-data/stack_exchange
+data

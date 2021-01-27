@@ -1,0 +1,3 @@
+model_location: ..\pretained_models\kmeans_optimal.joblib
+opt_clusters: '2'
+yaml_location: ..\pretained_models\kmeans_optimal.yaml
