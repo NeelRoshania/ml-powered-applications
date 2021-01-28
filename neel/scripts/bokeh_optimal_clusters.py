@@ -26,7 +26,7 @@ df_orig = pd.read_csv(
 )
 
 df = df_orig.iloc[:, 1::].copy()
-df.info()
+# df.info()
 
 # Bokeh setup and sources
 
@@ -43,8 +43,16 @@ LABELS = ["Cluster {}".format(cluster) for cluster in np.sort(df_bokeh.cluster.u
 df_ans   = df_bokeh.loc[df_bokeh.question_answered == 'answered', :]
 df_nans  = df_bokeh.loc[df_bokeh.question_answered == 'unanswered', :]
 
+src_ans_orig = bpl.ColumnDataSource(
+    df_ans.to_dict('list')
+)
+
 src_ans  = bpl.ColumnDataSource(
     df_ans.to_dict('list')
+)
+
+src_nans_orig = bpl.ColumnDataSource(
+    df_nans.to_dict('list')
 )
 
 src_nans = bpl.ColumnDataSource(
@@ -135,11 +143,16 @@ p_nanswered.add_tools(hover_answered)
 # Widgets
 #
 
-filter_answered = checkbox_categorical_filter(src_ans)
-checkbox_group = CheckboxGroup(labels=LABELS, active=[i for i in range(len(LABELS))])
-checkbox_group.js_on_change('active', filter_answered)
+# data filters
+filter_answered = checkbox_categorical_filter(src_ans, src_ans_orig)
+filter_nanswered = checkbox_categorical_filter(src_nans, src_nans_orig)
 
-# checkbox_group.on_change('active', update)
+# checkbox object
+checkbox_group = CheckboxGroup(labels=LABELS, active=[i for i in range(len(LABELS))])
+
+# event handlers
+checkbox_group.js_on_change('active', filter_answered)
+checkbox_group.js_on_change('active', filter_nanswered)
 
 # output_file("color_scatter.html", title="color_scatter.py example")
 
